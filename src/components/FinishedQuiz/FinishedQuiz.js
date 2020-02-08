@@ -49,3 +49,4 @@ const FinishedQuiz = props => {
 };
 
 export default FinishedQuiz;
+
