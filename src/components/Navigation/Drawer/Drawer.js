@@ -22,9 +22,10 @@ const links = [
 ];
 
 class Drawer extends Component {
-  clickHandler = () => {
-    this.props.onClose();
-  };
+
+  clickHandler = ()=> {
+    this.props.onClose()
+  }
 
   renderLinks() {
     return links.map((link, index) => {
