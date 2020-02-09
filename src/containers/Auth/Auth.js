@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './Auth.module.css';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
+import is from 'is_js';
 
 class Auth extends Component {
   state = {
@@ -36,11 +37,43 @@ class Auth extends Component {
   loginHandler = () => {};
 
   registerHandler = () => {};
+
   submitHandler = e => {
     e.preventDefault();
   };
+  validateControl(value, validation) {
+    if (!validation) {
+      return true;
+    }
+    let isValid = true;
+
+    if (validation.required) {
+      isValid = value.trim() !== '' && isValid;
+    }
+
+    if (validation.email) {
+      isValid = is.email(value) && isValid;
+    }
+    if (validation.minLength) {
+      isValid = value.length >= validation.minLength && isValid;
+    }
+
+    return isValid;
+  }
+
   onChangeHandler = (e, controlName) => {
-    console.log(`${controlName}: `, e.target.value);
+    const formControls = { ...this.state.formControls };
+    const control = { ...formControls[controlName] };
+
+    control.value = e.target.value;
+    control.touched = true;
+    control.valid = this.validateControl(control.value, control.validation);
+
+    formControls[controlName] = control;
+
+    this.setState({
+      formControls
+    });
   };
 
   renderInputs() {
