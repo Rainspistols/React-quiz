@@ -22,6 +22,7 @@ export default class QuizList extends Component {
       });
   }
 
+
   render() {
     return (
       <div className={classes.QuizList}>
