@@ -3,7 +3,11 @@ import classes from './QuizCreator.module.css';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import Select from '../../components/UI/Select/Select';
-import { createControl } from '../../form/formFramework';
+import {
+  createControl,
+  validate,
+  validateForm
+} from '../../form/formFramework';
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 
 function createOptionControl(number) {
@@ -37,14 +41,31 @@ class QuizCreator extends Component {
   state = {
     quiz: [],
     rightAnswerId: 1,
+    isFormValid: false,
     formControls: createFormControls()
   };
   submitHandler = e => {
     e.preventDefault();
   };
-  addQuestionHandler = () => {};
+  addQuestionHandler = e => {
+    e.preventDefault();
+  };
   createQuizHandler = () => {};
-  changeHandler = (value, controlName) => {};
+  changeHandler = (value, controlName) => {
+    const formControls = { ...this.state.formControls };
+    const control = { ...formControls[controlName] };
+
+    control.touched = true;
+    control.value = value;
+    control.valid = validate(control.value, control.validation);
+
+    formControls[controlName] = control;
+
+    this.setState({
+      formControls,
+      isFormValid: validateForm(formControls)
+    });
+  };
   rednerControls() {
     return Object.keys(this.state.formControls).map((controlName, index) => {
       const control = this.state.formControls[controlName];
@@ -108,10 +129,18 @@ class QuizCreator extends Component {
 
             {select}
 
-            <Button type='primary' onClick={this.addQuestionHandler}>
+            <Button
+              type='primary'
+              onClick={this.addQuestionHandler}
+              disabled={!this.state.isFormValid}
+            >
               Add a question
             </Button>
-            <Button type='success' onClick={this.createQuizHandler}>
+            <Button
+              type='success'
+              onClick={this.createQuizHandler}
+              disabled={this.state.quiz.length === 0}
+            >
               Create the test
             </Button>
           </form>
