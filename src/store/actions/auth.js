@@ -6,7 +6,7 @@ export function auth(email, password, isLogin) {
     const authData = {
       email,
       password,
-      returnSecureToker: true
+      returnSecureToken: true
     };
 
     let url =
@@ -49,6 +49,12 @@ export function logout() {
     type: AUTH_LOGOUT
   };
 }
+
+export function autoLogin() {
+  
+}
+
+export function autoLogin() {}
 
 export function authSuccess(token) {
   return {
