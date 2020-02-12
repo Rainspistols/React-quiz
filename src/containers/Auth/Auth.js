@@ -3,7 +3,9 @@ import classes from './Auth.module.css';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import is from 'is_js';
-import axios from 'axios';
+
+import { connect } from 'react-redux';
+import { auth } from '../../store/actions/auth';
 
 class Auth extends Component {
   state = {
@@ -36,40 +38,20 @@ class Auth extends Component {
     }
   };
 
-  loginHandler = async () => {
-    const authDate = {
-      email: this.state.formControls.email.value,
-      password: this.state.formControls.password.value,
-      returnSecureToker: true
-    };
-    try {
-      const response = await axios.post(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDgvt3DjP3kUGWrTCsy7JZdzjtqMx-Xxik',
-        authDate
-      );
-
-      console.log(response.data);
-    } catch (e) {
-      console.log(e);
-    }
+  loginHandler = () => {
+    this.props.auth(
+      this.state.formControls.email.value,
+      this.state.formControls.password.value,
+      true
+    );
   };
 
-  registerHandler = async () => {
-    const authDate = {
-      email: this.state.formControls.email.value,
-      password: this.state.formControls.password.value,
-      returnSecureToker: true
-    };
-    try {
-      const response = await axios.post(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDgvt3DjP3kUGWrTCsy7JZdzjtqMx-Xxik',
-        authDate
-      );
-
-      console.log(response.data);
-    } catch (e) {
-      console.log(e);
-    }
+  registerHandler = () => {
+    this.props.auth(
+      this.state.formControls.email.value,
+      this.state.formControls.password.value,
+      false
+    );
   };
 
   submitHandler = e => {
@@ -166,4 +148,10 @@ class Auth extends Component {
   }
 }
 
-export default Auth;
+function mapDispatchToProps(dispatch) {
+  return {
+    auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Auth);
