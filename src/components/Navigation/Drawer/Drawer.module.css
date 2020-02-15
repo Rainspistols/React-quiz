@@ -7,10 +7,11 @@
   max-width: 300px;
   padding: 20px 10px;
   box-sizing: border-box;
-  background: #fff;
+  background: #FDFDFD;
   transform: translateX(0px);
   transition: transform 0.22s ease-in;
   z-index: 90;
+  font-weight: bold;
 }
 
 .Drawer.close {

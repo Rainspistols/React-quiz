@@ -11,3 +11,12 @@
   display: flex;
   justify-content: space-between;
 }
+
+.ActiveQuiz span {
+  margin-right: 20px;
+  font-weight: bold;
+}
+
+.ActiveQuiz small {
+  white-space: nowrap;
+}
